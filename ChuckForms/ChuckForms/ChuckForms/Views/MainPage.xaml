@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ChuckForms"
+             xmlns:behaviors="clr-namespace:ChuckForms.Behaviors;assembly=ChuckForms"
+             x:Class="ChuckForms.Views.MainPage"
+             Title="{Binding Title}">
+    <ListView ItemsSource="{Binding Categories}"
+                  VerticalOptions="FillAndExpand" HasUnevenRows="true"
+                  behaviors:AttachedItemTappedBehavior.Command="{Binding ItemClickCommand}"
+                  RefreshCommand="{Binding RefreshCommand}" IsPullToRefreshEnabled="true"
+                  IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                  CachingStrategy="RecycleElement">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <StackLayout>
+                        <StackLayout.Padding>
+                            <OnPlatform x:TypeArguments="Thickness"
+                                iOS="10"
+                                Android="10"
+                                WinPhone="0, 0, 0, 10" />
+                        </StackLayout.Padding>
+                        <Label Text="{Binding .}" LineBreakMode="NoWrap" FontSize="16"/>
+                    </StackLayout>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+</ContentPage>

@@ -10,12 +10,16 @@ namespace ChuckForms.Views
 {
     public partial class MainPage : ContentPage
     {
+        private MainViewModel _vm;
         public MainViewModel ViewModel
         {
             get
             {
+                if (_vm == null)
+                    _vm = new MainViewModel();
+
                 if (BindingContext == null)
-                    BindingContext = new MainViewModel();
+                    BindingContext = _vm;
 
                 return (BindingContext as MainViewModel);
             }

@@ -11,7 +11,8 @@ namespace ChuckForms
         {
             InitializeComponent();
 
-            MainPage = new Views.MainPage();
+            var rootPage = new Views.MainPage();
+            MainPage = new NavigationPage(rootPage);
         }
 
         protected override void OnStart()

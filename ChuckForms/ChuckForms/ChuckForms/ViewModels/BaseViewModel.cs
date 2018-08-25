@@ -35,11 +35,10 @@ namespace ChuckForms.ViewModels
             Title = title;
         }
         
-        public async Task ShowAlertAsync(string title, string msg, string cancel)
-        {
-            await Application.Current.MainPage.DisplayAlert(title, msg, cancel);
-        }
+        public Task ShowAlertAsync(string title, string msg, string cancel)
+            => Application.Current.MainPage.DisplayAlert(title, msg, cancel);
 
-        public virtual Task Initialize(object parameters = null) => Task.FromResult(true);
+        public virtual Task Initialize(object parameters = null) 
+            => Task.FromResult(true);
     }
 }

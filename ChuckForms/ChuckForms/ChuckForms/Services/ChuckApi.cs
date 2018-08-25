@@ -1,9 +1,7 @@
 ﻿using ChuckForms.Models;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ChuckForms.Services
@@ -17,7 +15,7 @@ namespace ChuckForms.Services
             using (var client = new HttpClient())
             {
                 //grab json from server
-                var json = await client.GetStringAsync($"{_api_base_url}/categories");
+                var json = await GetJsonData($"{_api_base_url}/categories");
 
                 //Deserialize json
                 var items = JsonConvert.DeserializeObject<List<string>>(json);
@@ -28,16 +26,21 @@ namespace ChuckForms.Services
         }
         public async Task<Joke> GetRandomJokeByCategoyAsync(string category)
         {
+            //grab json from server
+            var json = await GetJsonData($"{_api_base_url}/random?category={category}");
+
+            //Deserialize json
+            var joke = JsonConvert.DeserializeObject<Joke>(json);
+
+            //return the items
+            return joke;
+        }
+        async Task<string> GetJsonData(string url)
+        {
             using (var client = new HttpClient())
             {
-                //grab json from server
-                var json = await client.GetStringAsync($"{_api_base_url}/random?category={category}");
-
-                //Deserialize json
-                var joke = JsonConvert.DeserializeObject<Joke>(json);
-
-                //return the items
-                return joke;
+                var json = await client.GetStringAsync(url);
+                return json;
             }
         }
     }

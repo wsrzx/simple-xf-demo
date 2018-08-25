@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChuckForms.Views;
+using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -29,9 +30,10 @@ namespace ChuckForms.ViewModels
             try
             {
                 IsBusy = true;
+                var jokePage = new JokePage();
+                await jokePage.ViewModel.Initialize(category);
 
-                var joke = await Api.GetRandomJokeByCategoyAsync(category);
-                await ShowAlertAsync(category, joke.Value, "LOL");
+                await Navigation.PushAsync(jokePage);
             }
             catch (Exception ex)
             {

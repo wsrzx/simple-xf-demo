@@ -12,17 +12,15 @@ namespace ChuckForms.Services
 
         public async Task<List<string>> GetAllCategoriesAsync()
         {
-            using (var client = new HttpClient())
-            {
-                //grab json from server
-                var json = await GetJsonData($"{_api_base_url}/categories");
+            //grab json from server
+            var json = await GetJsonData($"{_api_base_url}/categories");
 
-                //Deserialize json
-                var items = JsonConvert.DeserializeObject<List<string>>(json);
+            //Deserialize json
+            var items = JsonConvert.DeserializeObject<List<string>>(json);
 
-                //return the items
-                return items;
-            }
+            //return the items
+            return items;
+
         }
         public async Task<Joke> GetRandomJokeByCategoyAsync(string category)
         {

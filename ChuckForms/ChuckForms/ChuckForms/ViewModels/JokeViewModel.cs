@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using ChuckForms.Models;
+using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace ChuckForms.ViewModels
 {
@@ -17,6 +20,19 @@ namespace ChuckForms.ViewModels
             }
         }
 
+        private Joke _joke = new Joke();
+        public Joke Joke
+        {
+            get
+            {
+                return _joke;
+            }
+            set
+            {
+                _joke = value; OnPropertyChanged();
+            }
+        }
+
         public JokeViewModel() : base("")
         {
         }
@@ -26,7 +42,35 @@ namespace ChuckForms.ViewModels
             Category = parameters as string;
             Title = Category;
 
-            await base.Initialize(parameters);
+            await LoadData();
+        }
+
+        async Task LoadData()
+        {
+            if (IsBusy)
+                return;
+
+            Exception error = null;
+
+            try
+            {
+                IsBusy = true;
+
+                var joke = await Api.GetRandomJokeByCategoyAsync(Category);
+                Joke = joke;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Error: " + ex);
+                error = ex;
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+
+            if (error != null)
+                await ShowAlertAsync("Error!", error.Message, "OK");
         }
     }
 }
